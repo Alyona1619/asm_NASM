@@ -38,3 +38,6 @@ section   .data
     y dd 0, 10, 1, 9, 2, 8, 5
     len dd ($ - x) / 4
     format db "Average: %d", 0xA
+
+section .bss
+    result resb 1
