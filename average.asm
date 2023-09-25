@@ -26,19 +26,42 @@ section   .text
 global    main
 extern printf
 
-_start:
+main:   
+	mov rax, 0
 
+subbing:
+	cmp rax, [len]
+	jz average
+	mov ebx, [x+rax*4]
+	sub ebx, [y+rax*4]
+	mov ecx, [result]
+    add ecx, ebx
+	mov [result], ecx
+	inc rax
+	jmp subbing
+	
+average:
+	xor rax, rax
+    xor ecx, ecx
+    mov rax, [result]
+    mov ecx, [len]
+    cdq
+    idiv ecx
+    mov [result], rax
 
 finish:
-        mov       rax, 60
-        xor       rdi, rdi
-        syscall
+    print [result]
+
+    mov       rax, 60
+    xor       rdi, rdi
+    syscall
 
 section   .data
-    x dd 5, 3, 2, 6, 1, 7, 4
-    y dd 0, 10, 1, 9, 2, 8, 5
+	message db "Average: %d", 10, 0
+	x dd 5, 3, 2, 6, 1, 7, 4
     len dd ($ - x) / 4
-    format db "Average: %d", 0xA
+	y dd 0, 10, 1, 9, 2, 8, 5
+	
 
 section .bss
     result resb 1
