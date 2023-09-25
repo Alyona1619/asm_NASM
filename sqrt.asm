@@ -1,10 +1,28 @@
-section   .text
-global    _start
+section .text
+global main
+extern printf
 
-_start:
+main:
+    finit
+    fild dword [num]
+    fsqrt
+    fist dword [result]
 
-        mov       rax, 60
-        xor       rdi, rdi
-        syscall
 
-section   .data
+    push rbp
+
+    mov rdi, format
+    mov rsi, [result]
+    call printf
+
+    pop rbp
+
+    mov rax, 60
+    xor rdi, rdi
+    syscall
+
+
+section .data
+    format db "Square root: %d", 0xA   
+    num dd 144    
+    result dd 0  
